@@ -11,7 +11,7 @@ const Context = ({ children }) => {
         name: faker.commerce.productName(),
         price: faker.commerce.price(),
         image: faker.random.image(),
-        inStock: faker.random.arrayElement([0, 3, 5, 6, 7]),
+        inStock: faker.random.arrayElement([0, 3, 0, 5, 6, 0, 7]),
         fastDelivery: faker.datatype.boolean(),
         rating: faker.random.arrayElement([1, 2, 3, 4, 5])
     }))
@@ -22,13 +22,13 @@ const Context = ({ children }) => {
     })
 
     return (
-        <CartContext.Provider value={{state,dispatch}}>{children}</CartContext.Provider>
+        <CartContext.Provider value={{ state, dispatch }}>{children}</CartContext.Provider>
     )
 }
 
 export default Context
 
 
-export const useCartState = () =>{
+export const useCartState = () => {
     return useContext(CartContext)
 }

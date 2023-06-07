@@ -5,7 +5,6 @@ import SingleProduct from './SingleProduct/SingleProduct'
 
 const Home = () => {
   const {state:{products},dispatch} = useCartState()
-  console.log(products)
   return (
     <div className='home'>
       <Filters/>
