@@ -4,11 +4,27 @@ import { Link } from 'react-router-dom'
 import './styles.css'
 import { useCartState } from './Context/Context'
 import { AiFillDelete } from 'react-icons/ai'
+import debounce from 'lodash.debounce'
+import { useEffect, useMemo } from 'react'
 
 const Header = () => {
 
-  const { state: { cart }, dispatch, filter, filterDispatch } = useCartState()
+  const { state: { cart }, dispatch, filterDispatch } = useCartState()
 
+    const debouncedResults = useMemo(() => {
+        return debounce((e)=>{
+              // throttle
+              filterDispatch({ 
+                type: "FILTER_BY_SEARCH",
+                payload: e.target.value
+              })
+            }, 1000);
+    });
+    useEffect(() => {
+        return () => {
+            debouncedResults.cancel();
+        };
+    });
   return (
     <div className='header'>
       <Navbar bg='dark' variant='dark' style={{ height: 80 }}>
@@ -63,13 +79,7 @@ const Header = () => {
           </Dropdown>
           <Navbar.Text className='search'>
             <FormControl style={{ width: 500 }} placeholder='search something...' className='m-auto'
-            onChange={(e)=>{
-              // throttle
-              filterDispatch({ 
-                type: "FILTER_BY_SEARCH",
-                payload: e.target.value
-              })
-            }}
+            onChange={debouncedResults}
              />
           </Navbar.Text>
         </Container>
