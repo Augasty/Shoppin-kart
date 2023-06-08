@@ -7,7 +7,7 @@ import { AiFillDelete } from 'react-icons/ai'
 
 const Header = () => {
 
-  const { state: { cart }, dispatch } = useCartState()
+  const { state: { cart }, dispatch, filter, filterDispatch } = useCartState()
 
   return (
     <div className='header'>
@@ -62,7 +62,15 @@ const Header = () => {
             </Dropdown.Menu>
           </Dropdown>
           <Navbar.Text className='search'>
-            <FormControl style={{ width: 500 }} placeholder='search something...' className='m-auto' />
+            <FormControl style={{ width: 500 }} placeholder='search something...' className='m-auto'
+            onChange={(e)=>{
+              // throttle
+              filterDispatch({ 
+                type: "FILTER_BY_SEARCH",
+                payload: e.target.value
+              })
+            }}
+             />
           </Navbar.Text>
         </Container>
       </Navbar>
