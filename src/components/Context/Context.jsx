@@ -1,6 +1,6 @@
-import { createContext, useContext, useReducer, useState } from 'react'
+import { createContext, useContext, useReducer} from 'react'
 import faker from "faker"
-import { cartReducer } from './Reducers'
+import { cartReducer , filterReducer } from './Reducers'
 
 faker.seed(100)
 const CartContext = createContext()
@@ -20,9 +20,16 @@ const Context = ({ children }) => {
         products: products,
         cart: []
     })
+    const [filter, filterDispatch] = useReducer(filterReducer, {
+        byStock: false,
+        byFastDelivery: false,
+        byRating: 0,
+        searchQuery: ''
+    })
+    
 
     return (
-        <CartContext.Provider value={{ state, dispatch }}>{children}</CartContext.Provider>
+        <CartContext.Provider value={{ state, dispatch, filter, filterDispatch }}>{children}</CartContext.Provider>
     )
 }
 
